@@ -15,7 +15,12 @@ def actualizar_lista_pasajeros():
         text_pasajeros_actuales.insert(tk.END, texto_pasajero_formateado)
 
 def actualizar_lista_ciudades():
-    pass
+    text_ciudades_actuales.delete(1.0, tk.END)
+
+    for ciudad in ciudades:
+        nombre_ciudad, nombre_pais = ciudad
+        texto_ciudades_formateado = f"Ciudad: {nombre_ciudad}\nPais: {nombre_pais}\n--------------------\n"
+        text_ciudades_actuales.insert(tk.END, texto_ciudades_formateado)
 
 
 def limpiar_celdas():
@@ -53,8 +58,20 @@ def confirmar_pasajero():
 
     actualizar_lista_pasajeros()
 
+
 def confirmar_ciudad():
-    pass
+    nombre_ciudad = entry_ciudad_nueva.get()
+    nombre_pais = entry_pais_nuevo.get()
+    if not nombre_ciudad or not nombre_pais:
+        label_advertencia.grid(row=8, columnspan=2, sticky="ewns")
+    else:
+        tupla_ciudad = (nombre_ciudad, nombre_pais)
+        ciudades.append(tupla_ciudad)
+        print(ciudades)
+        limpiar_celdas()
+
+    actualizar_lista_ciudades()
+    
 
 def agregar_ciudad():
     limpiar_celdas()
@@ -127,6 +144,7 @@ btn_buscar_por_cedula.config(cursor="hand2")
 btn_cuantos_viajan_ciudad.config(cursor="hand2")  
 btn_cuantos_viajan_pais.config(cursor="hand2")
 btn_confirmar_pasajero.config(cursor="hand2")
+btn_confirmar_ciudad.config(cursor="hand2")
 btn_cancelar.config(cursor="hand2")
 
 # Despliegue de componentes
