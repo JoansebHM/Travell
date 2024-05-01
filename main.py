@@ -31,20 +31,28 @@ def actualizar_lista_ciudades():
 
 
 def limpiar_celdas():
+    for entry in entries:
+        entry.delete(0, tk.END)
     label_pasajero_nuevo_nombre.grid_forget()
     label_pasajero_nuevo_cedula.grid_forget()
     label_pasajero_nuevo_ciudad.grid_forget()
     label_ciudad_nueva.grid_forget()
     label_pais_nuevo.grid_forget()
+    label_buscar_cantidad_personas_ciudad.grid_forget()
+    label_buscar_cantidad_personas_pais.grid_forget()
     btn_confirmar_ciudad.grid_forget()
     btn_confirmar_pasajero.grid_forget()
     btn_confirmar_cedula.grid_forget()
+    btn_confirmar_cantidad_personas_ciudad.grid_forget()
+    btn_confirmar_cantidad_personas_pais.grid_forget()
     entry_ciudad_nueva.grid_forget()
     entry_pais_nuevo.grid_forget()
     entry_pasajero_nuevo_nombre.grid_forget()
     entry_pasajero_nuevo_cedula.grid_forget()
     entry_pasajero_nuevo_ciudad.grid_forget()
     entry_buscar_pasajero.grid_forget()
+    entry_cantidad_personas_ciudad.grid_forget()
+    entry_cantidad_personas_pais.grid_forget()
     label_advertencia.grid_forget()
     text_busqueda_pasajero.grid_forget()
 
@@ -95,8 +103,6 @@ def confirmar_ciudad():
 
 def agregar_ciudad():
     limpiar_celdas()
-    for entry in entries:
-        entry.delete(0, tk.END)
     label_ciudad_nueva.grid(row=5, column=0)
     label_pais_nuevo.grid(row=6, column=0)
     entry_ciudad_nueva.grid(row=5, column=1, sticky="ewns")
@@ -106,8 +112,6 @@ def agregar_ciudad():
 
 def agregar_pasajero():
     limpiar_celdas()
-    for entry in entries:
-        entry.delete(0, tk.END)
     label_pasajero_nuevo_nombre.grid(row=5, column=0)
     label_pasajero_nuevo_cedula.grid(row=6, column=0)
     label_pasajero_nuevo_ciudad.grid(row=7, column=0)
@@ -138,17 +142,59 @@ def confirmar_cedula():
     text_busqueda_pasajero.grid(row=9, column=0, columnspan=2)
 
     nombre_pasajero, cedula_pasajero, ciudad_pasajero = pasajero
-    texto_pasajero_formateado = f"Nombre: {nombre_pasajero}\nCedula: {cedula_pasajero}\nCiudad: {ciudad_pasajero}\n--------------------\n"
+    for ciudad, pais in ciudades:
+        if ciudad == ciudad_pasajero:
+            pais_pasajero = pais
+    texto_pasajero_formateado = f"Nombre: {nombre_pasajero}\nCedula: {cedula_pasajero}\nCiudad: {ciudad_pasajero}\nPais: {pais_pasajero}\n--------------------\n"
     text_busqueda_pasajero.insert(tk.END, texto_pasajero_formateado)
 
 
 def buscar_persona():
     limpiar_celdas()
-    for entry in entries:
-        entry.delete(0, tk.END)
     label_pasajero_nuevo_cedula.grid(row=6, column=0)
     entry_buscar_pasajero.grid(row=6, column=1, sticky="ewns")
     btn_confirmar_cedula.grid(row=8, columnspan=2, sticky="ewns")
+
+def confirmar_cantidad_personas_ciudad():    
+    ciudad = entry_cantidad_personas_ciudad.get()
+    if not ciudad:
+        print(ciudad)
+        label_advertencia.config(text="Todos los campos deben estar diligenciados correctamente")
+        label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
+        return
+       
+    cantPasajerosCiudad = 0
+    for _, _ , ciudad_ in pasajeros:
+        if ciudad_ == ciudad:
+            cantPasajerosCiudad += 1
+    label_advertencia.grid(row=9, column=0, columnspan=2)
+    text = f"La cantidad de pasajeros que viajan a {ciudad} es {cantPasajerosCiudad}"
+    label_advertencia.config(text=text)
+
+def confirmar_cantidad_personas_pais():
+    pais = entry_cantidad_personas_pais.get()
+    if not pais:
+        label_advertencia.config(text="Todos los campos deben estar diligenciados correctamente")
+        label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
+        return
+       
+    ciudades_pais = [ciudad for ciudad, p in ciudades if p == pais]
+    total_pasajeros = sum([1 for _, _, ciudad in pasajeros if ciudad in ciudades_pais])
+    label_advertencia.grid(row=9, column=0, columnspan=2)
+    text = f"La cantidad de pasajeros que viajan a {pais} es {total_pasajeros}"
+    label_advertencia.config(text=text)
+
+def cantidad_personas_ciudad():
+    limpiar_celdas()
+    label_buscar_cantidad_personas_ciudad.grid(row=6, column=0, sticky="ewns")
+    entry_cantidad_personas_ciudad.grid(row=6, column=1, sticky="ewns")
+    btn_confirmar_cantidad_personas_ciudad.grid(row=7, columnspan=2, sticky="ewns")
+
+def cantidad_personas_pais():
+    limpiar_celdas()
+    label_buscar_cantidad_personas_pais.grid(row=6, column=0, sticky="ewns")
+    entry_cantidad_personas_pais.grid(row=6, column=1, sticky="ewns")
+    btn_confirmar_cantidad_personas_pais.grid(row=7, columnspan=2, sticky="ewns")
 
 
 # Labels de text
@@ -164,11 +210,15 @@ label_advertencia = tk.Label(
     text="Todos los campos deben estar diligenciados correctamente",
     font=font_sans,
 )
+label_buscar_cantidad_personas_ciudad = tk.Label(root, text="Ciudad", font=font_sans)
+label_buscar_cantidad_personas_pais = tk.Label(root, text="Pais", font=font_sans)
 
 # Entries
 entry_pasajero_nuevo_nombre = tk.Entry(root, font=font_sans)
 entry_pasajero_nuevo_cedula = tk.Entry(root, font=font_sans)
 entry_pasajero_nuevo_ciudad = tk.Entry(root, font=font_sans)
+entry_cantidad_personas_ciudad = tk.Entry(root, font=font_sans)
+entry_cantidad_personas_pais = tk.Entry(root, font=font_sans)
 entry_buscar_pasajero = tk.Entry(root, font=font_sans)
 entry_ciudad_nueva = tk.Entry(root, font=font_sans)
 entry_pais_nuevo = tk.Entry(root, font=font_sans)
@@ -179,12 +229,15 @@ entries = [
     entry_ciudad_nueva,
     entry_pais_nuevo,
     entry_buscar_pasajero,
+    entry_cantidad_personas_ciudad,
+    entry_cantidad_personas_pais
 ]
 
 # Mostrar informacion
 text_pasajeros_actuales = tk.Text(root, wrap=tk.WORD, font=font_sans)
 text_ciudades_actuales = tk.Text(root, wrap=tk.WORD, font=font_sans)
 text_busqueda_pasajero = tk.Text(root, wrap=tk.WORD, font=font_sans)
+text_cantidad_personas_en_lugar = tk.Text(root, wrap=tk.WORD, font=font_sans)
 
 # Botones
 btn_agregar_pasajero = tk.Button(
@@ -197,20 +250,26 @@ btn_buscar_por_cedula = tk.Button(
     root, text="Buscar Persona", font=font_sans, command=buscar_persona
 )
 btn_cuantos_viajan_ciudad = tk.Button(
-    root, text="Cantidad de personas en ciudad", font=font_sans
+    root, text="Cantidad de personas en ciudad", font=font_sans, command=cantidad_personas_ciudad
 )
 btn_cuantos_viajan_pais = tk.Button(
-    root, text="Cantidad de personas en pais", font=font_sans
+    root, text="Cantidad de personas en pais", font=font_sans, command=cantidad_personas_pais
 )
 btn_cancelar = tk.Button(root, text="Cancelar", font=font_sans, command=limpiar_celdas)
 btn_confirmar_pasajero = tk.Button(
     root, text="Confirmar", font=font_sans, command=confirmar_pasajero
 )
 btn_confirmar_cedula = tk.Button(
-    root, text="Confirmar", font=font_sans, command=confirmar_cedula
+    root, text="Buscar", font=font_sans, command=confirmar_cedula
 )
 btn_confirmar_ciudad = tk.Button(
     root, text="Confirmar", font=font_sans, command=confirmar_ciudad
+)
+btn_confirmar_cantidad_personas_ciudad = tk.Button(
+    root, text="Buscar", font=font_sans, command=confirmar_cantidad_personas_ciudad
+)
+btn_confirmar_cantidad_personas_pais = tk.Button(
+    root, text="Buscar", font=font_sans, command=confirmar_cantidad_personas_pais
 )
 
 
@@ -220,6 +279,8 @@ text_busqueda_pasajero.config(width=60, height=5)
 text_ciudades_actuales.config(width=30, height=10)
 text_pasajeros_actuales.config(state="normal")
 text_ciudades_actuales.config(state="normal")
+text_busqueda_pasajero.config(state="normal")
+text_busqueda_pasajero.bind("<Key>", "break")
 text_pasajeros_actuales.bind("<Key>", "break")
 text_ciudades_actuales.bind("<Key>", "break")
 btn_agregar_pasajero.config(cursor="hand2")
@@ -227,8 +288,11 @@ btn_agregar_ciudad.config(cursor="hand2")
 btn_buscar_por_cedula.config(cursor="hand2")
 btn_cuantos_viajan_ciudad.config(cursor="hand2")
 btn_cuantos_viajan_pais.config(cursor="hand2")
+btn_confirmar_cedula.config(cursor="hand2")
 btn_confirmar_pasajero.config(cursor="hand2")
 btn_confirmar_ciudad.config(cursor="hand2")
+btn_confirmar_cantidad_personas_pais.config(cursor="hand2")
+btn_confirmar_cantidad_personas_ciudad.config(cursor="hand2")
 btn_cancelar.config(cursor="hand2")
 
 # Despliegue de componentes
