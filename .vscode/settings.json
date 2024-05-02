@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.formatOnSave": true
+  },
+  "black-formatter.args": ["--config", "./pyproject.toml"]
+}
