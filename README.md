@@ -16,22 +16,22 @@ Follow these steps to set up your development environment:
 git clone https://github.com/JoansebHM/Travell.git
 ```
 
-2. Navigate to the project directory:
+1. Navigate to the project directory:
 
 ```bash
 cd Travell
 ```
 
-3. Create a virtual environment using `venv`:
+1. Create a virtual environment using `venv`:
 
 ```bash
-python3 -m venv venv
+python3 -m venv env
 ```
 
-4. Activate the virtual environment. On macOS and Linux:
+1. Activate the virtual environment. On macOS and Linux:
 
 ```bash
-source venv/bin/activate
+source env/bin/activate
 ```
 
 On Windows:
@@ -40,19 +40,11 @@ On Windows:
 venv\Scripts\activate
 ```
 
-5. Install dependencies from `requirements.txt`:
+1. Install dependencies from `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
-
-## Usage
-
-Explain how to use your project here. Provide examples if applicable.
-
-## Configuration
-
-If your project requires any configuration, explain it here and provide instructions on how to set it up.
 
 ## Contributing
 
