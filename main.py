@@ -65,7 +65,7 @@ def limpiar_celdas():
 
 
 def confirmar_pasajero():
-    nombre_pasajero = entry_pasajero_nuevo_nombre.get()
+    nombre_pasajero = str(entry_pasajero_nuevo_nombre.get())
     cedula_pasajero_texto = entry_pasajero_nuevo_cedula.get()
     ciudad_pasajero = entry_pasajero_nuevo_ciudad.get().lower()
     try:
