@@ -142,9 +142,14 @@ def confirmar_cedula():
     text_busqueda_pasajero.grid(row=9, column=0, columnspan=2)
 
     nombre_pasajero, cedula_pasajero, ciudad_pasajero = pasajero
-    for ciudad, pais in ciudades:
-        if ciudad == ciudad_pasajero:
-            pais_pasajero = pais
+    pais_pasajero = "No se encontro el pais de esta ciudad"
+    try:
+        for ciudad, pais in ciudades:
+            if ciudad == ciudad_pasajero:
+                pais_pasajero = pais
+                break
+    except:
+        pass
     texto_pasajero_formateado = f"Nombre: {nombre_pasajero}\nCedula: {cedula_pasajero}\nCiudad: {ciudad_pasajero}\nPais: {pais_pasajero}\n--------------------\n"
     text_busqueda_pasajero.insert(tk.END, texto_pasajero_formateado)
 
@@ -237,7 +242,6 @@ entries = [
 text_pasajeros_actuales = tk.Text(root, wrap=tk.WORD, font=font_sans)
 text_ciudades_actuales = tk.Text(root, wrap=tk.WORD, font=font_sans)
 text_busqueda_pasajero = tk.Text(root, wrap=tk.WORD, font=font_sans)
-text_cantidad_personas_en_lugar = tk.Text(root, wrap=tk.WORD, font=font_sans)
 
 # Botones
 btn_agregar_pasajero = tk.Button(
