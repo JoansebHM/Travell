@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "donjayamanne.python-extension-pack",
+    "ms-python.vscode-pylance",
+    "ms-python.isort",
+    "ms-python.black-formatter",
+    "christian-kohler.path-intellisense"
+  ]
+}
