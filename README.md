@@ -37,7 +37,7 @@ source env/bin/activate
 On Windows:
 
 ```PowerShell
-venv\Scripts\activate
+env\Scripts\activate
 ```
 
 1. Install dependencies from `requirements.txt`:
@@ -53,7 +53,7 @@ If you'd like to contribute, please follow these steps:
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature/your_feature`).
 3. Make your changes.
-4. Commit your changes (`git commit -am 'Add some feature'`).
+4. Commit your changes (`git commit -am '[feature/fix/refac] Add some feature'`).
 5. Push to the branch (`git push origin feature/your_feature`).
 6. Create a new Pull Request.
 
