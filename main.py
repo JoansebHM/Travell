@@ -67,7 +67,7 @@ def limpiar_celdas():
 def confirmar_pasajero():
     nombre_pasajero = entry_pasajero_nuevo_nombre.get()
     cedula_pasajero_texto = entry_pasajero_nuevo_cedula.get()
-    ciudad_pasajero = entry_pasajero_nuevo_ciudad.get()
+    ciudad_pasajero = entry_pasajero_nuevo_ciudad.get().lower()
     try:
         cedula_pasajero = int(cedula_pasajero_texto)
     except ValueError:
@@ -96,8 +96,8 @@ def confirmar_pasajero():
 
 
 def confirmar_ciudad():
-    nombre_ciudad = entry_ciudad_nueva.get()
-    nombre_pais = entry_pais_nuevo.get()
+    nombre_ciudad = entry_ciudad_nueva.get().lower()
+    nombre_pais = entry_pais_nuevo.get().lower()
     if not nombre_ciudad or not nombre_pais:
         label_advertencia.grid(row=8, columnspan=2, sticky="ewns")
         return
@@ -179,7 +179,7 @@ def buscar_persona():
 
 
 def confirmar_cantidad_personas_ciudad():
-    ciudad = entry_cantidad_personas_ciudad.get()
+    ciudad = entry_cantidad_personas_ciudad.get().lower()
     if not ciudad:
         label_advertencia.config(
             text="Todos los campos deben estar diligenciados correctamente"
@@ -199,7 +199,7 @@ def confirmar_cantidad_personas_ciudad():
 
 
 def confirmar_cantidad_personas_pais():
-    pais = entry_cantidad_personas_pais.get()
+    pais = entry_cantidad_personas_pais.get().lower()
     if not pais:
         label_advertencia.config(
             text="Todos los campos deben estar diligenciados correctamente"
