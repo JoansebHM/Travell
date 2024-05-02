@@ -59,10 +59,4 @@ If you'd like to contribute, please follow these steps:
 
 ## License
 
-Include license information here. For example:
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-If your project relies on any third-party code or libraries, acknowledge them here. You can also thank any contributors or sources of inspiration.
