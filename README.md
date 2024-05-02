@@ -1,6 +1,6 @@
 # Travel System
 
-### Integrantes
+## Code Owners
 
 - Juan Jose Herrera Mendoza
 - Joan Sebastian Herrera
