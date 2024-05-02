@@ -15,7 +15,12 @@ def actualizar_lista_pasajeros():
 
     for pasajero in pasajeros:
         nombre_pasajero, cedula_pasajero, ciudad_pasajero = pasajero
-        texto_pasajero_formateado = f"Nombre: {nombre_pasajero}\nCedula: {cedula_pasajero}\nCiudad: {ciudad_pasajero}\n--------------------\n"
+        texto_pasajero_formateado = f"""
+        Nombre: {nombre_pasajero}
+        Cedula: {cedula_pasajero}
+        Ciudad: {ciudad_pasajero}
+        --------------------
+        """
         text_pasajeros_actuales.insert(tk.END, texto_pasajero_formateado)
 
 
@@ -24,9 +29,11 @@ def actualizar_lista_ciudades():
 
     for ciudad in ciudades:
         nombre_ciudad, nombre_pais = ciudad
-        texto_ciudades_formateado = (
-            f"Ciudad: {nombre_ciudad}\nPais: {nombre_pais}\n--------------------\n"
-        )
+        texto_ciudades_formateado = f"""
+        Ciudad: {nombre_ciudad}
+        Pais: {nombre_pais}
+        --------------------
+        """
         text_ciudades_actuales.insert(tk.END, texto_ciudades_formateado)
 
 
@@ -70,7 +77,9 @@ def confirmar_pasajero():
     for pasajero in pasajeros:
         if cedula_pasajero == pasajero[1]:
             label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
-            label_advertencia.config(text="La cedula ya se encuentra registrada")
+            label_advertencia.config(
+                text="La cedula ya se encuentra registrada"
+            )
             return
 
     if not nombre_pasajero or not ciudad_pasajero:
@@ -82,7 +91,6 @@ def confirmar_pasajero():
     )
     tupla_pasajero = (nombre_pasajero, cedula_pasajero, ciudad_pasajero)
     pasajeros.append(tupla_pasajero)
-    print(pasajeros)
     limpiar_celdas()
     actualizar_lista_pasajeros()
 
@@ -96,7 +104,6 @@ def confirmar_ciudad():
 
     tupla_ciudad = (nombre_ciudad, nombre_pais)
     ciudades.append(tupla_ciudad)
-    print(ciudades)
     limpiar_celdas()
     actualizar_lista_ciudades()
 
@@ -127,18 +134,22 @@ def confirmar_cedula():
         cedula = int(entry_buscar_pasajero.get())
     except ValueError:
         text_busqueda_pasajero.grid_forget()
-        label_advertencia.config(text="Todos los campos deben estar diligenciados correctamente")
+        label_advertencia.config(
+            text="Todos los campos deben estar diligenciados correctamente"
+        )
         label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
         return
-    
-    pasajero = next((pasajero for pasajero in pasajeros if pasajero[1] == cedula), None)
-    
+
+    pasajero = next(
+        (pasajero for pasajero in pasajeros if pasajero[1] == cedula), None
+    )
+
     if not pasajero:
         text_busqueda_pasajero.grid_forget()
         label_advertencia.config(text="Pasajero no encontrado")
         label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
         return
-    
+
     text_busqueda_pasajero.grid(row=9, column=0, columnspan=2)
 
     nombre_pasajero, cedula_pasajero, ciudad_pasajero = pasajero
@@ -150,7 +161,13 @@ def confirmar_cedula():
                 break
     except:
         pass
-    texto_pasajero_formateado = f"Nombre: {nombre_pasajero}\nCedula: {cedula_pasajero}\nCiudad: {ciudad_pasajero}\nPais: {pais_pasajero}\n--------------------\n"
+    texto_pasajero_formateado = f"""
+    Nombre: {nombre_pasajero}
+    Cedula: {cedula_pasajero}
+    Ciudad: {ciudad_pasajero}
+    Pais: {pais_pasajero}
+    --------------------
+    """
     text_busqueda_pasajero.insert(tk.END, texto_pasajero_formateado)
 
 
@@ -160,46 +177,61 @@ def buscar_persona():
     entry_buscar_pasajero.grid(row=6, column=1, sticky="ewns")
     btn_confirmar_cedula.grid(row=8, columnspan=2, sticky="ewns")
 
-def confirmar_cantidad_personas_ciudad():    
+
+def confirmar_cantidad_personas_ciudad():
     ciudad = entry_cantidad_personas_ciudad.get()
     if not ciudad:
-        print(ciudad)
-        label_advertencia.config(text="Todos los campos deben estar diligenciados correctamente")
+        label_advertencia.config(
+            text="Todos los campos deben estar diligenciados correctamente"
+        )
         label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
         return
-       
+
     cantPasajerosCiudad = 0
-    for _, _ , ciudad_ in pasajeros:
+    for _, _, ciudad_ in pasajeros:
         if ciudad_ == ciudad:
             cantPasajerosCiudad += 1
     label_advertencia.grid(row=9, column=0, columnspan=2)
-    text = f"La cantidad de pasajeros que viajan a {ciudad} es {cantPasajerosCiudad}"
+    text = f"""
+        La cantidad de pasajeros que viajan a {ciudad} es {cantPasajerosCiudad}
+    """
     label_advertencia.config(text=text)
+
 
 def confirmar_cantidad_personas_pais():
     pais = entry_cantidad_personas_pais.get()
     if not pais:
-        label_advertencia.config(text="Todos los campos deben estar diligenciados correctamente")
+        label_advertencia.config(
+            text="Todos los campos deben estar diligenciados correctamente"
+        )
         label_advertencia.grid(row=9, columnspan=2, sticky="ewns")
         return
-       
+
     ciudades_pais = [ciudad for ciudad, p in ciudades if p == pais]
-    total_pasajeros = sum([1 for _, _, ciudad in pasajeros if ciudad in ciudades_pais])
+    total_pasajeros = sum(
+        [1 for _, _, ciudad in pasajeros if ciudad in ciudades_pais]
+    )
     label_advertencia.grid(row=9, column=0, columnspan=2)
     text = f"La cantidad de pasajeros que viajan a {pais} es {total_pasajeros}"
     label_advertencia.config(text=text)
+
 
 def cantidad_personas_ciudad():
     limpiar_celdas()
     label_buscar_cantidad_personas_ciudad.grid(row=6, column=0, sticky="ewns")
     entry_cantidad_personas_ciudad.grid(row=6, column=1, sticky="ewns")
-    btn_confirmar_cantidad_personas_ciudad.grid(row=7, columnspan=2, sticky="ewns")
+    btn_confirmar_cantidad_personas_ciudad.grid(
+        row=7, columnspan=2, sticky="ewns"
+    )
+
 
 def cantidad_personas_pais():
     limpiar_celdas()
     label_buscar_cantidad_personas_pais.grid(row=6, column=0, sticky="ewns")
     entry_cantidad_personas_pais.grid(row=6, column=1, sticky="ewns")
-    btn_confirmar_cantidad_personas_pais.grid(row=7, columnspan=2, sticky="ewns")
+    btn_confirmar_cantidad_personas_pais.grid(
+        row=7, columnspan=2, sticky="ewns"
+    )
 
 
 # Labels de text
@@ -215,8 +247,12 @@ label_advertencia = tk.Label(
     text="Todos los campos deben estar diligenciados correctamente",
     font=font_sans,
 )
-label_buscar_cantidad_personas_ciudad = tk.Label(root, text="Ciudad", font=font_sans)
-label_buscar_cantidad_personas_pais = tk.Label(root, text="Pais", font=font_sans)
+label_buscar_cantidad_personas_ciudad = tk.Label(
+    root, text="Ciudad", font=font_sans
+)
+label_buscar_cantidad_personas_pais = tk.Label(
+    root, text="Pais", font=font_sans
+)
 
 # Entries
 entry_pasajero_nuevo_nombre = tk.Entry(root, font=font_sans)
@@ -235,7 +271,7 @@ entries = [
     entry_pais_nuevo,
     entry_buscar_pasajero,
     entry_cantidad_personas_ciudad,
-    entry_cantidad_personas_pais
+    entry_cantidad_personas_pais,
 ]
 
 # Mostrar informacion
@@ -254,12 +290,20 @@ btn_buscar_por_cedula = tk.Button(
     root, text="Buscar Persona", font=font_sans, command=buscar_persona
 )
 btn_cuantos_viajan_ciudad = tk.Button(
-    root, text="Cantidad de personas en ciudad", font=font_sans, command=cantidad_personas_ciudad
+    root,
+    text="Cantidad de personas en ciudad",
+    font=font_sans,
+    command=cantidad_personas_ciudad,
 )
 btn_cuantos_viajan_pais = tk.Button(
-    root, text="Cantidad de personas en pais", font=font_sans, command=cantidad_personas_pais
+    root,
+    text="Cantidad de personas en pais",
+    font=font_sans,
+    command=cantidad_personas_pais,
 )
-btn_cancelar = tk.Button(root, text="Cancelar", font=font_sans, command=limpiar_celdas)
+btn_cancelar = tk.Button(
+    root, text="Cancelar", font=font_sans, command=limpiar_celdas
+)
 btn_confirmar_pasajero = tk.Button(
     root, text="Confirmar", font=font_sans, command=confirmar_pasajero
 )
@@ -270,10 +314,16 @@ btn_confirmar_ciudad = tk.Button(
     root, text="Confirmar", font=font_sans, command=confirmar_ciudad
 )
 btn_confirmar_cantidad_personas_ciudad = tk.Button(
-    root, text="Buscar", font=font_sans, command=confirmar_cantidad_personas_ciudad
+    root,
+    text="Buscar",
+    font=font_sans,
+    command=confirmar_cantidad_personas_ciudad,
 )
 btn_confirmar_cantidad_personas_pais = tk.Button(
-    root, text="Buscar", font=font_sans, command=confirmar_cantidad_personas_pais
+    root,
+    text="Buscar",
+    font=font_sans,
+    command=confirmar_cantidad_personas_pais,
 )
 
 
